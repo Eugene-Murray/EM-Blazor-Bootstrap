@@ -19,13 +19,13 @@ jobs:
           dotnet-version: '10.x'
 
       - name: Restore dependencies
-        run: dotnet restore EM-Blazor-Bootstrap.slnx
+        run: dotnet restore EM-Blazor-Bootstrap.Components.Tests/EM-Blazor-Bootstrap.Components.Tests.csproj
 
       - name: Build
-        run: dotnet build EM-Blazor-Bootstrap.slnx --no-restore --configuration Release
+        run: dotnet build EM-Blazor-Bootstrap.Components.Tests/EM-Blazor-Bootstrap.Components.Tests.csproj --no-restore --configuration Release
 
       - name: Run tests
-        run: dotnet test EM-Blazor-Bootstrap.slnx --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
+        run: dotnet test EM-Blazor-Bootstrap.Components.Tests/EM-Blazor-Bootstrap.Components.Tests.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=test-results.trx" --collect:"XPlat Code Coverage"
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
