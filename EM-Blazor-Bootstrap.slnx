@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/solution/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
   <Project Path="EM-Blazor-Bootstrap.Client/EM-Blazor-Bootstrap.Client.csproj" />
   <Project Path="EM-Blazor-Bootstrap.Components.Tests/EM-Blazor-Bootstrap.Components.Tests.csproj">
     <Build Solution="Debug|*" Project="false" />
