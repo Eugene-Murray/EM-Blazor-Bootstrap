@@ -1,0 +1,94 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+<nav aria-label="@AriaLabel">
+	<ul class="pagination @SizeClass @AlignClass @Class">
+		<li class="page-item @(CurrentPage <= 1 ? "disabled" : "")">
+			<button class="page-link" @onclick="PreviousAsync" disabled="@(CurrentPage <= 1)">&laquo;</button>
+		</li>
+
+		@foreach (var pageNum in VisiblePages)
+		{
+			@if (pageNum == -1)
+			{
+				<li class="page-item disabled"><span class="page-link">&hellip;</span></li>
+			}
+			else
+			{
+				<li class="page-item @(pageNum == CurrentPage ? "active" : "")"
+					aria-current="@(pageNum == CurrentPage ? "page" : null)">
+					<button class="page-link" @onclick="() => GoToAsync(pageNum)">@pageNum</button>
+				</li>
+			}
+		}
+
+		<li class="page-item @(CurrentPage >= TotalPages ? "disabled" : "")">
+			<button class="page-link" @onclick="NextAsync" disabled="@(CurrentPage >= TotalPages)">&raquo;</button>
+		</li>
+	</ul>
+</nav>
+
+@code {
+	private string SizeClass => Size switch
+	{
+		"sm" => "pagination-sm",
+		"lg" => "pagination-lg",
+		_    => string.Empty
+	};
+
+	private string AlignClass => Align switch
+	{
+		"center" => "justify-content-center",
+		"end"    => "justify-content-end",
+		_        => string.Empty
+	};
+
+	private IEnumerable<int> VisiblePages
+	{
+		get
+		{
+			const int window = 2;
+			var pages = new List<int>();
+
+			for (var i = 1; i <= TotalPages; i++)
+			{
+				if (i == 1 || i == TotalPages || (i >= CurrentPage - window && i <= CurrentPage + window))
+					pages.Add(i);
+				else if (pages[^1] != -1)
+					pages.Add(-1); // ellipsis sentinel
+			}
+
+			return pages;
+		}
+	}
+
+	/// <summary>The currently active page (1-based).</summary>
+	[Parameter] public int CurrentPage { get; set; } = 1;
+
+	/// <summary>Total number of pages.</summary>
+	[Parameter] public int TotalPages { get; set; } = 1;
+
+	/// <summary>Raised when the user navigates to a different page; argument is the new page number.</summary>
+	[Parameter] public EventCallback<int> OnPageChanged { get; set; }
+
+	/// <summary>Pagination size: sm, lg, or empty for default.</summary>
+	[Parameter] public string Size { get; set; } = string.Empty;
+
+	/// <summary>Horizontal alignment: start (default), center, end.</summary>
+	[Parameter] public string Align { get; set; } = "start";
+
+	/// <summary>Accessible label for the nav element.</summary>
+	[Parameter] public string AriaLabel { get; set; } = "Page navigation";
+
+	/// <summary>Additional CSS classes applied to the ul element.</summary>
+	[Parameter] public string? Class { get; set; }
+
+	private Task PreviousAsync() => GoToAsync(CurrentPage - 1);
+	private Task NextAsync()     => GoToAsync(CurrentPage + 1);
+
+	private async Task GoToAsync(int page)
+	{
+		if (page < 1 || page > TotalPages || page == CurrentPage) return;
+		CurrentPage = page;
+		await OnPageChanged.InvokeAsync(page);
+	}
+}

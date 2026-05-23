@@ -1,0 +1,101 @@
+@page "/wasm/modal"
+@layout DocsLayout
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Modal (WASM) – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Modal</h1>
+	<span class="badge text-bg-primary">WebAssembly</span>
+</div>
+<p class="lead text-body-secondary mb-4">
+	<code>EmModal</code> running in WebAssembly. Show/hide state is managed client-side — no server round-trip.
+</p>
+<div class="alert alert-primary d-flex gap-2 mb-5">
+	<span>🌐</span>
+	<span>This page uses <strong><code>@@rendermode InteractiveWebAssembly</code></strong>. Modal open/close runs entirely in the browser.</span>
+</div>
+
+<DemoSection Title="Basic Modal" Code="@(@"<EmButton Variant=""primary"" OnClick=""() => _modal!.Show()"">Open Modal</EmButton>
+
+<EmModal @ref=""_modal"" Title=""WASM Modal"" Centered>
+	This modal's visibility is toggled by WASM — no SignalR involved.
+	<Footer>
+		<EmButton Variant=""secondary"" OnClick=""() => _modal!.HideAsync()"">Close</EmButton>
+	</Footer>
+</EmModal>")">
+	<Preview>
+		<EmButton Variant="primary" OnClick="() => _basic!.Show()">Open WASM Modal</EmButton>
+		<EmModal @ref="_basic" Title="WASM Modal" Centered>
+			<ChildContent>This modal is opened and closed by WebAssembly code running in your browser.</ChildContent>
+			<Footer>
+				<EmButton Variant="secondary" OnClick="() => _basic!.HideAsync()">Close</EmButton>
+				<EmButton Variant="primary">Save</EmButton>
+			</Footer>
+		</EmModal>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Sizes" Code="@(@"<EmButton OnClick=""() => _sm!.Show()"" Variant=""secondary"" Size=""sm"">Small</EmButton>
+<EmButton OnClick=""() => _lg!.Show()"" Variant=""primary"">Large</EmButton>
+<EmButton OnClick=""() => _xl!.Show()"" Variant=""dark"">Extra Large</EmButton>")">
+	<Preview>
+		<div class="d-flex gap-2">
+			<EmButton Variant="secondary" Size="sm" OnClick="() => _sm!.Show()">Small</EmButton>
+			<EmButton Variant="primary" OnClick="() => _lg!.Show()">Large</EmButton>
+			<EmButton Variant="dark" OnClick="() => _xl!.Show()">Extra Large</EmButton>
+		</div>
+		<EmModal @ref="_sm" Title="Small Modal" Size="sm">
+			<ChildContent>Small WASM modal.</ChildContent>
+			<Footer><EmButton Variant="secondary" OnClick="() => _sm!.HideAsync()">Close</EmButton></Footer>
+		</EmModal>
+		<EmModal @ref="_lg" Title="Large Modal" Size="lg">
+			<ChildContent>Large WASM modal — sized with Bootstrap’s modal-lg class.</ChildContent>
+			<Footer><EmButton Variant="secondary" OnClick="() => _lg!.HideAsync()">Close</EmButton></Footer>
+		</EmModal>
+		<EmModal @ref="_xl" Title="Extra Large Modal" Size="xl">
+			<ChildContent>Extra large WASM modal — sized with Bootstrap’s modal-xl class.</ChildContent>
+			<Footer><EmButton Variant="secondary" OnClick="() => _xl!.HideAsync()">Close</EmButton></Footer>
+		</EmModal>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Confirm Dialog (WASM)">
+	<Preview>
+		<div class="d-flex align-items-center gap-2">
+			<EmButton Variant="danger" OnClick="() => _confirm!.Show()">Delete Item</EmButton>
+			@if (_deleted)
+			{
+				<EmAlert Variant="success" Class="py-1 px-2 mb-0 d-inline-block">Deleted in WASM!</EmAlert>
+			}
+		</div>
+		<EmModal @ref="_confirm" Title="Confirm Delete" Centered>
+			<ChildContent>Are you sure? This action cannot be undone.</ChildContent>
+			<Footer>
+				<EmButton Variant="secondary" OnClick="() => _confirm!.HideAsync()">Cancel</EmButton>
+				<EmButton Variant="danger" OnClick="ConfirmDelete">Delete</EmButton>
+			</Footer>
+		</EmModal>
+	</Preview>
+</DemoSection>
+
+<div class="mt-4">
+	<a href="/components/modal" class="btn btn-outline-success btn-sm">View Interactive Server version →</a>
+</div>
+
+@code {
+	private EmModal? _basic;
+	private EmModal? _sm;
+	private EmModal? _lg;
+	private EmModal? _xl;
+	private EmModal? _confirm;
+	private bool _deleted;
+
+	private async Task ConfirmDelete()
+	{
+		await _confirm!.HideAsync();
+		_deleted = true;
+		await Task.Delay(2500);
+		_deleted = false;
+	}
+}

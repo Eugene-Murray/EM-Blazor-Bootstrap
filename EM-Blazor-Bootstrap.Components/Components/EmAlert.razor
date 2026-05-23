@@ -1,0 +1,41 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+@if (!_dismissed)
+{
+	<div class="alert alert-@Variant @(Dismissible ? "alert-dismissible" : "") fade show @Class"
+		 role="alert">
+		@ChildContent
+		@if (Dismissible)
+		{
+			<button type="button" class="btn-close" aria-label="Close" @onclick="Dismiss"></button>
+		}
+	</div>
+}
+
+@code {
+	private bool _dismissed;
+
+	/// <summary>Bootstrap color variant: primary, secondary, success, danger, warning, info, light, dark.</summary>
+	[Parameter] public string Variant { get; set; } = "info";
+
+	/// <summary>Shows a close button and allows the alert to be dismissed.</summary>
+	[Parameter] public bool Dismissible { get; set; }
+
+	/// <summary>Additional CSS classes applied to the alert element.</summary>
+	[Parameter] public string? Class { get; set; }
+
+	/// <summary>Alert body content.</summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>Raised when the alert is dismissed.</summary>
+	[Parameter] public EventCallback OnDismissed { get; set; }
+
+	private async Task Dismiss()
+	{
+		_dismissed = true;
+		await OnDismissed.InvokeAsync();
+	}
+
+	/// <summary>Resets a previously dismissed alert so it becomes visible again.</summary>
+	public void Reset() => _dismissed = false;
+}

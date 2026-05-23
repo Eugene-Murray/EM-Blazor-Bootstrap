@@ -1,0 +1,92 @@
+@page "/wasm/button"
+@layout DocsLayout
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Button (WASM) – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Button</h1>
+	<span class="badge text-bg-primary">WebAssembly</span>
+</div>
+<p class="lead text-body-secondary mb-4">
+	<code>EmButton</code> running in WebAssembly. Click events and loading state are handled purely in the browser.
+</p>
+<div class="alert alert-primary d-flex gap-2 mb-5">
+	<span>🌐</span>
+	<span>This page uses <strong><code>@@rendermode InteractiveWebAssembly</code></strong>. The loading spinner state is managed in WASM, not SignalR.</span>
+</div>
+
+<DemoSection Title="Variants" Code="@(@"<EmButton Variant=""primary"">Primary</EmButton>
+<EmButton Variant=""success"">Success</EmButton>
+<EmButton Variant=""danger"">Danger</EmButton>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmButton Variant="primary">Primary</EmButton>
+			<EmButton Variant="secondary">Secondary</EmButton>
+			<EmButton Variant="success">Success</EmButton>
+			<EmButton Variant="danger">Danger</EmButton>
+			<EmButton Variant="warning">Warning</EmButton>
+			<EmButton Variant="info">Info</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Outline" Code="@(@"<EmButton Variant=""primary"" Outline>Primary</EmButton>
+<EmButton Variant=""success"" Outline>Success</EmButton>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmButton Variant="primary" Outline>Primary</EmButton>
+			<EmButton Variant="secondary" Outline>Secondary</EmButton>
+			<EmButton Variant="success" Outline>Success</EmButton>
+			<EmButton Variant="danger" Outline>Danger</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="WASM Async Loading" Description="The Task.Delay runs in WASM — notice there is no SignalR ping during the wait."
+			 Code="@(@"<EmButton Variant=""primary"" Loading=""@_saving"" OnClick=""Save"">
+	@(_saving ? ""Saving..."" : ""Save Changes"")
+</EmButton>
+
+@code {
+	private bool _saving;
+	private async Task Save() {
+		_saving = true;
+		await Task.Delay(2000);  // runs in browser thread pool
+		_saving = false;
+	}
+}")">
+	<Preview>
+		<div class="d-flex gap-2">
+			<EmButton Variant="primary" Loading="@_saving" OnClick="Save">
+				@(_saving ? "Saving in WASM..." : "Save Changes")
+			</EmButton>
+			<EmButton Variant="success" Loading="@_uploading" OnClick="Upload">
+				@(_uploading ? "Uploading in WASM..." : "Upload File")
+			</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<div class="mt-4">
+	<a href="/components/button" class="btn btn-outline-success btn-sm">View Interactive Server version →</a>
+</div>
+
+@code {
+	private bool _saving;
+	private bool _uploading;
+
+	private async Task Save()
+	{
+		_saving = true;
+		await Task.Delay(2000);
+		_saving = false;
+	}
+
+	private async Task Upload()
+	{
+		_uploading = true;
+		await Task.Delay(2500);
+		_uploading = false;
+	}
+}

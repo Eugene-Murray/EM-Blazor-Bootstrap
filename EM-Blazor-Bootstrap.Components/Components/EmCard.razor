@@ -1,0 +1,50 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+<div class="card @Class">
+	@if (Header is not null)
+	{
+		<div class="card-header">@Header</div>
+	}
+	@if (Image is not null)
+	{
+		<div>@Image</div>
+	}
+	<div class="card-body">
+		@if (Title is not null)
+		{
+			<h5 class="card-title">@Title</h5>
+		}
+		@if (Subtitle is not null)
+		{
+			<h6 class="card-subtitle mb-2 text-body-secondary">@Subtitle</h6>
+		}
+		@ChildContent
+	</div>
+	@if (Footer is not null)
+	{
+		<div class="card-footer text-body-secondary">@Footer</div>
+	}
+</div>
+
+@code {
+	/// <summary>Content rendered inside the card-body.</summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>Content rendered in the card-header band.</summary>
+	[Parameter] public RenderFragment? Header { get; set; }
+
+	/// <summary>Content rendered in the card-footer band.</summary>
+	[Parameter] public RenderFragment? Footer { get; set; }
+
+	/// <summary>Optional image slot rendered above the card-body (use an &lt;img&gt; with class="card-img-top").</summary>
+	[Parameter] public RenderFragment? Image { get; set; }
+
+	/// <summary>Optional card title rendered as an &lt;h5&gt; inside card-body.</summary>
+	[Parameter] public RenderFragment? Title { get; set; }
+
+	/// <summary>Optional card subtitle rendered as an &lt;h6&gt; inside card-body.</summary>
+	[Parameter] public RenderFragment? Subtitle { get; set; }
+
+	/// <summary>Additional CSS classes applied to the card root element.</summary>
+	[Parameter] public string? Class { get; set; }
+}

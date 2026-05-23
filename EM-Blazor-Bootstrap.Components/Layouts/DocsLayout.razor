@@ -1,0 +1,74 @@
+@namespace EM_Blazor_Bootstrap.Components.Layouts
+@inherits LayoutComponentBase
+@inject NavigationManager Nav
+
+<PageTitle>EM Bootstrap Components</PageTitle>
+
+<header class="docs-header navbar navbar-expand-lg bg-dark navbar-dark sticky-top px-3 py-2">
+	<a class="navbar-brand fw-semibold" href="/">
+		<span class="text-primary">EM</span> Blazor Bootstrap
+	</a>
+	<div class="d-flex gap-3 ms-auto align-items-center">
+		<span class="badge text-bg-secondary">v1.0</span>
+		<a class="nav-link text-white-50 small" href="/components/alert">Server</a>
+		<a class="nav-link text-white-50 small" href="/wasm/alert">WebAssembly</a>
+		<button id="theme-toggle" class="btn btn-sm btn-outline-secondary theme-toggle" onclick="window.toggleTheme()" title="Toggle light/dark mode">
+			🌙
+		</button>
+	</div>
+</header>
+
+<div class="docs-wrapper">
+	<nav class="docs-sidebar border-end d-none d-lg-block py-4 px-3">
+		<div class="docs-nav-section mb-3">
+			<div class="docs-nav-heading text-uppercase text-body-secondary small fw-semibold mb-2 px-2">
+				Getting Started
+			</div>
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<NavLink class="nav-link rounded" href="/" Match="NavLinkMatch.All">Introduction</NavLink>
+				</li>
+			</ul>
+		</div>
+
+		<div class="docs-nav-section mb-3">
+			<div class="docs-nav-heading text-uppercase text-body-secondary small fw-semibold mb-2 px-2">
+				Interactive Server
+			</div>
+			<ul class="nav flex-column">
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/alert">Alert</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/badge">Badge</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/button">Button</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/card">Card</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/modal">Modal</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/navbar">Navbar</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/pagination">Pagination</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/components/spinner">Spinner</NavLink></li>
+			</ul>
+		</div>
+
+		<div class="docs-nav-section mb-3">
+			<div class="docs-nav-heading text-uppercase text-body-secondary small fw-semibold mb-2 px-2">
+				WebAssembly
+			</div>
+			<ul class="nav flex-column">
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/alert">Alert</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/badge">Badge</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/button">Button</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/card">Card</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/modal">Modal</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/navbar">Navbar</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/pagination">Pagination</NavLink></li>
+				<li class="nav-item"><NavLink class="nav-link rounded" href="/wasm/spinner">Spinner</NavLink></li>
+			</ul>
+		</div>
+	</nav>
+
+	<main class="docs-content flex-grow-1 py-5 px-4 px-xl-5">
+		@Body
+	</main>
+</div>
+
+@code {
+	private bool _sidebarOpen;
+}

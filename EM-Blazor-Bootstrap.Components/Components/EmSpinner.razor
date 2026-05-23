@@ -1,0 +1,23 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+<div class="@SpinnerClass @ColorClass @Class" role="status">
+	<span class="visually-hidden">@Label</span>
+</div>
+
+@code {
+	private string SpinnerClass => Grow ? "spinner-grow" : "spinner-border";
+
+	private string ColorClass => string.IsNullOrEmpty(Variant) ? string.Empty : $"text-{Variant}";
+
+	/// <summary>Uses the grow animation instead of the border (spin) animation.</summary>
+	[Parameter] public bool Grow { get; set; }
+
+	/// <summary>Bootstrap color variant applied as text-{variant}: primary, secondary, success, danger, warning, info, light, dark.</summary>
+	[Parameter] public string Variant { get; set; } = "primary";
+
+	/// <summary>Accessible label for screen readers.</summary>
+	[Parameter] public string Label { get; set; } = "Loading...";
+
+	/// <summary>Additional CSS classes applied to the spinner element.</summary>
+	[Parameter] public string? Class { get; set; }
+}

@@ -1,0 +1,85 @@
+@page "/wasm/card"
+@layout DocsLayout
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Card (WASM) – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Card</h1>
+	<span class="badge text-bg-primary">WebAssembly</span>
+</div>
+<p class="lead text-body-secondary mb-4">
+	<code>EmCard</code> running in WebAssembly. All RenderFragment slots work identically across render modes.
+</p>
+<div class="alert alert-primary d-flex gap-2 mb-5">
+	<span>🌐</span>
+	<span>This page uses <strong><code>@@rendermode InteractiveWebAssembly</code></strong>.</span>
+</div>
+
+<DemoSection Title="Basic Card" Code="@(@"<EmCard>
+	<ChildContent>Card body content here.</ChildContent>
+</EmCard>")">
+	<Preview>
+		<div style="max-width:360px">
+			<EmCard>
+				<ChildContent>Running in WebAssembly — all rendering happens in the browser.</ChildContent>
+			</EmCard>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="With Title & Footer" Code="@(@"<EmCard>
+	<Title>WASM Card</Title>
+	<ChildContent><p>Content rendered client-side.</p></ChildContent>
+	<Footer><EmBadge Variant=""primary"">WebAssembly</EmBadge></Footer>
+</EmCard>")">
+	<Preview>
+		<div style="max-width:360px">
+			<EmCard>
+				<Title>WASM Card</Title>
+				<ChildContent><p>This card and all its slots are rendered in WebAssembly.</p></ChildContent>
+				<Footer><EmBadge Variant="primary">WebAssembly</EmBadge></Footer>
+			</EmCard>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Dynamic Card Grid (WASM)" Description="State updates from button clicks run in the browser — no server calls.">
+	<Preview>
+		<div class="d-flex gap-2 mb-3">
+			<EmButton Variant="primary" Size="sm" OnClick="AddCard">Add Card</EmButton>
+			<EmButton Variant="outline-danger" Size="sm" OnClick="ClearCards" Disabled="@(!_cards.Any())">Clear</EmButton>
+		</div>
+		<div class="row g-3">
+			@foreach (var (title, variant, idx) in _cards)
+			{
+				<div class="col-md-4">
+					<EmCard>
+						<Header><EmBadge Variant="@variant">@variant</EmBadge></Header>
+						<Title>@title</Title>
+						<ChildContent>Card #@idx — added in WASM without a server call.</ChildContent>
+					</EmCard>
+				</div>
+			}
+		</div>
+	</Preview>
+</DemoSection>
+
+<div class="mt-4">
+	<a href="/components/card" class="btn btn-outline-success btn-sm">View Interactive Server version →</a>
+</div>
+
+@code {
+	private readonly List<(string Title, string Variant, int Index)> _cards = [];
+	private static readonly string[] Variants = ["primary", "success", "info", "warning", "danger"];
+	private int _idx;
+
+	private void AddCard()
+	{
+		_idx++;
+		var variant = Variants[(_idx - 1) % Variants.Length];
+		_cards.Add(($"Card {_idx}", variant, _idx));
+	}
+
+	private void ClearCards() => _cards.Clear();
+}

@@ -1,0 +1,75 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+@if (_visible)
+{
+	<div class="modal-backdrop fade show"></div>
+	<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="@_titleId">
+		<div class="modal-dialog @SizeClass @(Centered ? "modal-dialog-centered" : "") @(Scrollable ? "modal-dialog-scrollable" : "")"
+			 role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="@_titleId">@Title</h5>
+					@if (Dismissible)
+					{
+						<button type="button" class="btn-close" aria-label="Close" @onclick="HideAsync"></button>
+					}
+				</div>
+				<div class="modal-body">
+					@ChildContent
+				</div>
+				@if (Footer is not null)
+				{
+					<div class="modal-footer">@Footer</div>
+				}
+			</div>
+		</div>
+	</div>
+}
+
+@code {
+	private bool _visible;
+	private readonly string _titleId = $"modal-title-{Guid.NewGuid():N}";
+
+	private string SizeClass => Size switch
+	{
+		"sm"  => "modal-sm",
+		"lg"  => "modal-lg",
+		"xl"  => "modal-xl",
+		"fullscreen" => "modal-fullscreen",
+		_     => string.Empty
+	};
+
+	/// <summary>Text shown in the modal header.</summary>
+	[Parameter] public string Title { get; set; } = string.Empty;
+
+	/// <summary>Modal body content.</summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>Optional footer content (e.g. action buttons).</summary>
+	[Parameter] public RenderFragment? Footer { get; set; }
+
+	/// <summary>Modal size: sm, lg, xl, fullscreen, or empty for default.</summary>
+	[Parameter] public string Size { get; set; } = string.Empty;
+
+	/// <summary>Vertically centers the modal in the viewport.</summary>
+	[Parameter] public bool Centered { get; set; }
+
+	/// <summary>Makes the modal body independently scrollable.</summary>
+	[Parameter] public bool Scrollable { get; set; }
+
+	/// <summary>Shows a close button in the header.</summary>
+	[Parameter] public bool Dismissible { get; set; } = true;
+
+	/// <summary>Raised when the modal is closed.</summary>
+	[Parameter] public EventCallback OnHidden { get; set; }
+
+	/// <summary>Shows the modal.</summary>
+	public void Show() => _visible = true;
+
+	/// <summary>Hides the modal and raises <see cref="OnHidden"/>.</summary>
+	public async Task HideAsync()
+	{
+		_visible = false;
+		await OnHidden.InvokeAsync();
+	}
+}

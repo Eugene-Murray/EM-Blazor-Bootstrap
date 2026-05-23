@@ -1,0 +1,19 @@
+.em-demo-preview {
+    min-height: 80px;
+}
+
+.em-demo-code {
+    position: relative;
+}
+
+.em-code-block {
+    background-color: #1e1e2e;
+    color: #cdd6f4;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: .8rem;
+    line-height: 1.6;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    border-top: none;
+    white-space: pre;
+}

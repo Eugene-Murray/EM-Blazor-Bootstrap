@@ -1,0 +1,8 @@
+// 1. Bootstrap variable overrides (must come before Bootstrap import)
+@use 'variables' as *;
+
+// 2. Bootstrap
+@use '../node_modules/bootstrap/scss/bootstrap';
+
+// 3. Custom application styles
+@use 'custom';

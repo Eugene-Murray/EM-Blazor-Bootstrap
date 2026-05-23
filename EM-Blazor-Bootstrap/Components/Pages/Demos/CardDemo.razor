@@ -1,0 +1,143 @@
+@page "/components/card"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Card – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Card</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	A flexible and extensible content container. Cards support optional header, footer,
+	image, title, and subtitle slots via RenderFragments.
+</p>
+
+<DemoSection Title="Basic Card"
+			 Description="A simple card with body content."
+			 Code="@(@"<EmCard>
+	<ChildContent>
+		Some quick example text to build on the card title and make up the bulk of the card's content.
+	</ChildContent>
+</EmCard>")">
+	<Preview>
+		<div style="max-width:360px">
+			<EmCard>
+				<ChildContent>
+					Some quick example text to build on the card title and make up the bulk of the card's content.
+				</ChildContent>
+			</EmCard>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="With Title, Subtitle & Link"
+			 Description="Use the Title and Subtitle slots and add links inside ChildContent."
+			 Code="@(@"<EmCard>
+	<Title>Card Title</Title>
+	<Subtitle>Card Subtitle</Subtitle>
+	<ChildContent>
+		<p>Some quick example text to build on the card title.</p>
+		<a href=""#"" class=""btn btn-primary"">Go somewhere</a>
+	</ChildContent>
+</EmCard>")">
+	<Preview>
+		<div style="max-width:360px">
+			<EmCard>
+				<Title>Card Title</Title>
+				<Subtitle>Card Subtitle</Subtitle>
+				<ChildContent>
+					<p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+					<EmButton Variant="primary">Go somewhere</EmButton>
+				</ChildContent>
+			</EmCard>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="With Header & Footer"
+			 Description="Use the Header and Footer RenderFragment slots."
+			 Code="@(@"<EmCard>
+	<Header>Featured</Header>
+	<ChildContent>
+		<h5 class=""card-title"">Special title treatment</h5>
+		<p>With supporting text below as a natural lead-in to additional content.</p>
+		<EmButton Variant=""primary"">Go somewhere</EmButton>
+	</ChildContent>
+	<Footer>
+		<small class=""text-body-secondary"">Last updated 3 mins ago</small>
+	</Footer>
+</EmCard>")">
+	<Preview>
+		<div style="max-width:360px">
+			<EmCard>
+				<Header>Featured</Header>
+				<ChildContent>
+					<h5 class="card-title">Special title treatment</h5>
+					<p>With supporting text below as a natural lead-in to additional content.</p>
+					<EmButton Variant="primary">Go somewhere</EmButton>
+				</ChildContent>
+				<Footer>
+					<small class="text-body-secondary">Last updated 3 mins ago</small>
+				</Footer>
+			</EmCard>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Card Grid"
+			 Description="Use Bootstrap's grid utilities to lay out cards side by side."
+			 Code="@(@"<div class=""row g-3"">
+	@foreach (var item in items)
+	{
+		<div class=""col-md-4"">
+			<EmCard>
+				<Title>@item.Title</Title>
+				<ChildContent>@item.Body</ChildContent>
+				<Footer><EmBadge Variant=""@item.Variant"">@item.Tag</EmBadge></Footer>
+			</EmCard>
+		</div>
+	}
+</div>")">
+	<Preview>
+		<div class="row g-3">
+			@foreach (var item in _cards)
+			{
+				<div class="col-md-4">
+					<EmCard>
+						<Title>@item.Title</Title>
+						<ChildContent>@item.Body</ChildContent>
+						<Footer><EmBadge Variant="@item.Variant">@item.Tag</EmBadge></Footer>
+					</EmCard>
+				</div>
+			}
+		</div>
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>ChildContent</code></td><td>RenderFragment?</td><td>—</td><td>Card body content.</td></tr>
+			<tr><td><code>Header</code></td><td>RenderFragment?</td><td>—</td><td>Content in the card-header band.</td></tr>
+			<tr><td><code>Footer</code></td><td>RenderFragment?</td><td>—</td><td>Content in the card-footer band.</td></tr>
+			<tr><td><code>Image</code></td><td>RenderFragment?</td><td>—</td><td>Image slot above the card body.</td></tr>
+			<tr><td><code>Title</code></td><td>RenderFragment?</td><td>—</td><td>Card title rendered as &lt;h5&gt;.</td></tr>
+			<tr><td><code>Subtitle</code></td><td>RenderFragment?</td><td>—</td><td>Card subtitle rendered as &lt;h6&gt;.</td></tr>
+			<tr><td><code>Class</code></td><td>string?</td><td>—</td><td>Additional CSS classes.</td></tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private readonly (string Title, string Body, string Variant, string Tag)[] _cards =
+	[
+		("Card One",   "Quick description for the first card.",   "primary", "New"),
+		("Card Two",   "Quick description for the second card.",  "success", "Active"),
+		("Card Three", "Quick description for the third card.",   "warning", "Pending"),
+	];
+}

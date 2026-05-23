@@ -1,0 +1,149 @@
+@page "/components/button"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Button – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Button</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	Custom button styles for actions in forms, dialogs, and more. Supports multiple variants,
+	sizes, outline style, disabled state, and a built-in loading spinner.
+</p>
+
+<DemoSection Title="Variants"
+			 Description="Use the Variant parameter to choose from Bootstrap's contextual colors."
+			 Code="@(@"<EmButton Variant=""primary"">Primary</EmButton>
+<EmButton Variant=""secondary"">Secondary</EmButton>
+<EmButton Variant=""success"">Success</EmButton>
+<EmButton Variant=""danger"">Danger</EmButton>
+<EmButton Variant=""warning"">Warning</EmButton>
+<EmButton Variant=""info"">Info</EmButton>
+<EmButton Variant=""light"">Light</EmButton>
+<EmButton Variant=""dark"">Dark</EmButton>
+<EmButton Variant=""link"">Link</EmButton>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmButton Variant="primary">Primary</EmButton>
+			<EmButton Variant="secondary">Secondary</EmButton>
+			<EmButton Variant="success">Success</EmButton>
+			<EmButton Variant="danger">Danger</EmButton>
+			<EmButton Variant="warning">Warning</EmButton>
+			<EmButton Variant="info">Info</EmButton>
+			<EmButton Variant="light">Light</EmButton>
+			<EmButton Variant="dark">Dark</EmButton>
+			<EmButton Variant="link">Link</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Outline Buttons"
+			 Description="Set Outline=true for a ghost-style button with a colored border."
+			 Code="@(@"<EmButton Variant=""primary"" Outline>Primary</EmButton>
+<EmButton Variant=""secondary"" Outline>Secondary</EmButton>
+<EmButton Variant=""success"" Outline>Success</EmButton>
+<EmButton Variant=""danger"" Outline>Danger</EmButton>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmButton Variant="primary" Outline>Primary</EmButton>
+			<EmButton Variant="secondary" Outline>Secondary</EmButton>
+			<EmButton Variant="success" Outline>Success</EmButton>
+			<EmButton Variant="danger" Outline>Danger</EmButton>
+			<EmButton Variant="warning" Outline>Warning</EmButton>
+			<EmButton Variant="info" Outline>Info</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Sizes"
+			 Description="Set Size to sm or lg. Omit for the default size."
+			 Code="@(@"<EmButton Variant=""primary"" Size=""lg"">Large</EmButton>
+<EmButton Variant=""primary"">Default</EmButton>
+<EmButton Variant=""primary"" Size=""sm"">Small</EmButton>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2 align-items-center">
+			<EmButton Variant="primary" Size="lg">Large</EmButton>
+			<EmButton Variant="primary">Default</EmButton>
+			<EmButton Variant="primary" Size="sm">Small</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Disabled State"
+			 Description="Set Disabled=true to prevent user interaction."
+			 Code="@(@"<EmButton Variant=""primary"" Disabled>Primary</EmButton>
+<EmButton Variant=""secondary"" Disabled>Secondary</EmButton>
+<EmButton Variant=""success"" Outline Disabled>Outline</EmButton>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmButton Variant="primary" Disabled>Primary</EmButton>
+			<EmButton Variant="secondary" Disabled>Secondary</EmButton>
+			<EmButton Variant="success" Outline Disabled>Outline</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Loading State"
+			 Description="Set Loading=true to show an inline spinner and disable the button. Ideal for async operations."
+			 Code="@(@"<EmButton Variant=""primary"" Loading=""@_saving"" OnClick=""SimulateSave"">
+	@(_saving ? ""Saving..."" : ""Save Changes"")
+</EmButton>
+
+@code {
+	private bool _saving;
+	private async Task SimulateSave() {
+		_saving = true;
+		await Task.Delay(2000);
+		_saving = false;
+	}
+}")">
+	<Preview>
+		<div class="d-flex gap-2 align-items-center">
+			<EmButton Variant="primary" Loading="@_saving" OnClick="SimulateSave">
+				@(_saving ? "Saving..." : "Save Changes")
+			</EmButton>
+			<EmButton Variant="success" Loading="@_uploading" OnClick="SimulateUpload">
+				@(_uploading ? "Uploading..." : "Upload File")
+			</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>Variant</code></td><td>string</td><td><code>"primary"</code></td><td>Bootstrap color variant.</td></tr>
+			<tr><td><code>Outline</code></td><td>bool</td><td><code>false</code></td><td>Ghost/outline button style.</td></tr>
+			<tr><td><code>Size</code></td><td>string</td><td><code>""</code></td><td>sm, lg, or empty for default.</td></tr>
+			<tr><td><code>Disabled</code></td><td>bool</td><td><code>false</code></td><td>Disables the button.</td></tr>
+			<tr><td><code>Loading</code></td><td>bool</td><td><code>false</code></td><td>Shows spinner and disables the button.</td></tr>
+			<tr><td><code>Type</code></td><td>string</td><td><code>"button"</code></td><td>HTML type: button, submit, reset.</td></tr>
+			<tr><td><code>OnClick</code></td><td>EventCallback&lt;MouseEventArgs&gt;</td><td>—</td><td>Click event handler.</td></tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private bool _saving;
+	private bool _uploading;
+
+	private async Task SimulateSave()
+	{
+		_saving = true;
+		await Task.Delay(2000);
+		_saving = false;
+	}
+
+	private async Task SimulateUpload()
+	{
+		_uploading = true;
+		await Task.Delay(2500);
+		_uploading = false;
+	}
+}

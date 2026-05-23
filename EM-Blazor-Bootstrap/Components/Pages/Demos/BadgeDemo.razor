@@ -1,0 +1,105 @@
+@page "/components/badge"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Badge – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Badge</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	Small count and labeling components. Use them in headings, buttons, or anywhere inline
+	to draw attention to a count or status.
+</p>
+
+<DemoSection Title="Color Variants"
+			 Description="Use the Variant parameter to apply any Bootstrap contextual color."
+			 Code="@(@"<EmBadge Variant=""primary"">Primary</EmBadge>
+<EmBadge Variant=""secondary"">Secondary</EmBadge>
+<EmBadge Variant=""success"">Success</EmBadge>
+<EmBadge Variant=""danger"">Danger</EmBadge>
+<EmBadge Variant=""warning"">Warning</EmBadge>
+<EmBadge Variant=""info"">Info</EmBadge>
+<EmBadge Variant=""light"">Light</EmBadge>
+<EmBadge Variant=""dark"">Dark</EmBadge>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmBadge Variant="primary">Primary</EmBadge>
+			<EmBadge Variant="secondary">Secondary</EmBadge>
+			<EmBadge Variant="success">Success</EmBadge>
+			<EmBadge Variant="danger">Danger</EmBadge>
+			<EmBadge Variant="warning">Warning</EmBadge>
+			<EmBadge Variant="info">Info</EmBadge>
+			<EmBadge Variant="light">Light</EmBadge>
+			<EmBadge Variant="dark">Dark</EmBadge>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Pill Badges"
+			 Description="Use the Pill parameter for more rounded badges."
+			 Code="@(@"<EmBadge Variant=""primary"" Pill>Primary</EmBadge>
+<EmBadge Variant=""success"" Pill>Success</EmBadge>
+<EmBadge Variant=""danger"" Pill>Danger</EmBadge>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmBadge Variant="primary" Pill>Primary</EmBadge>
+			<EmBadge Variant="secondary" Pill>Secondary</EmBadge>
+			<EmBadge Variant="success" Pill>Success</EmBadge>
+			<EmBadge Variant="danger" Pill>Danger</EmBadge>
+			<EmBadge Variant="warning" Pill>Warning</EmBadge>
+			<EmBadge Variant="info" Pill>Info</EmBadge>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Badge in Headings"
+			 Description="Badges scale to match the size of the parent element."
+			 Code="@(@"<h1>H1 heading <EmBadge Variant=""secondary"">New</EmBadge></h1>
+<h3>H3 heading <EmBadge Variant=""secondary"">New</EmBadge></h3>
+<h5>H5 heading <EmBadge Variant=""secondary"">New</EmBadge></h5>")">
+	<Preview>
+		<h4>Heading <EmBadge Variant="secondary">New</EmBadge></h4>
+		<h5>Heading <EmBadge Variant="secondary">New</EmBadge></h5>
+		<h6>Heading <EmBadge Variant="secondary">New</EmBadge></h6>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Button with Notification Count"
+			 Description="Place a badge inside a button to show a notification count."
+			 Code="@(@"<EmButton Variant=""primary"">
+	Messages <EmBadge Variant=""light"" Pill>@_count</EmBadge>
+</EmButton>
+<EmButton Variant=""outline-secondary"" OnClick=""() => _count++"">Add notification</EmButton>
+
+@code { private int _count = 4; }")">
+	<Preview>
+		<div class="d-flex gap-2 align-items-center">
+			<EmButton Variant="primary">
+				Messages <EmBadge Variant="light" Pill>@_notifCount</EmBadge>
+			</EmButton>
+			<EmButton Variant="outline-secondary" OnClick="() => _notifCount++">Add notification</EmButton>
+			<EmButton Variant="outline-danger" OnClick="() => _notifCount = 0">Clear</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>Variant</code></td><td>string</td><td><code>"primary"</code></td><td>Bootstrap color variant.</td></tr>
+			<tr><td><code>Pill</code></td><td>bool</td><td><code>false</code></td><td>Renders as a pill with rounded ends.</td></tr>
+			<tr><td><code>Class</code></td><td>string?</td><td>—</td><td>Additional CSS classes.</td></tr>
+			<tr><td><code>ChildContent</code></td><td>RenderFragment?</td><td>—</td><td>Badge label content.</td></tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private int _notifCount = 4;
+}

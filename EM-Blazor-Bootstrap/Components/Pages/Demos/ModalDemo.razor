@@ -1,0 +1,166 @@
+@page "/components/modal"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Modal – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Modal</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	Add dialogs for lightboxes, user notifications, or completely custom content.
+	Control visibility programmatically via <code>Show()</code> and <code>HideAsync()</code>.
+</p>
+
+<DemoSection Title="Basic Modal"
+			 Description="Call Show() on a component reference to open the modal. The footer accepts any content."
+			 Code="@(@"<EmButton Variant=""primary"" OnClick=""() => _basic!.Show()"">Open Modal</EmButton>
+
+<EmModal @ref=""_basic"" Title=""Basic Modal"" Dismissible>
+	This is a basic modal. Click the close button or press Escape to dismiss it.
+	<Footer>
+		<EmButton Variant=""secondary"" OnClick=""() => _basic!.HideAsync()"">Close</EmButton>
+		<EmButton Variant=""primary"">Save changes</EmButton>
+	</Footer>
+</EmModal>
+
+@code { private EmModal? _basic; }")">
+	<Preview>
+		<EmButton Variant="primary" OnClick="() => _basic!.Show()">Open Basic Modal</EmButton>
+		<EmModal @ref="_basic" Title="Basic Modal" Dismissible>
+			<ChildContent>
+				This is a basic modal. Click the close button or the <strong>Close</strong> button below to dismiss it.
+			</ChildContent>
+			<Footer>
+				<EmButton Variant="secondary" OnClick="() => _basic!.HideAsync()">Close</EmButton>
+				<EmButton Variant="primary">Save changes</EmButton>
+			</Footer>
+		</EmModal>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Sizes"
+			 Description="Use the Size parameter: sm, lg, xl, or fullscreen."
+			 Code="@(@"<EmButton Variant=""secondary"" Size=""sm"" OnClick=""() => _sm!.Show()"">Small</EmButton>
+<EmButton Variant=""primary"" OnClick=""() => _lg!.Show()"">Large</EmButton>
+<EmButton Variant=""dark"" OnClick=""() => _xl!.Show()"">Extra Large</EmButton>
+
+<EmModal @ref=""_sm"" Title=""Small Modal"" Size=""sm"">Small modal content.</EmModal>
+<EmModal @ref=""_lg"" Title=""Large Modal"" Size=""lg"">Large modal content.</EmModal>
+<EmModal @ref=""_xl"" Title=""Extra Large Modal"" Size=""xl"">Extra large modal content.</EmModal>")">
+	<Preview>
+		<div class="d-flex gap-2">
+			<EmButton Variant="secondary" Size="sm" OnClick="() => _sm!.Show()">Small</EmButton>
+			<EmButton Variant="primary" OnClick="() => _lg!.Show()">Large</EmButton>
+			<EmButton Variant="dark" OnClick="() => _xl!.Show()">Extra Large</EmButton>
+		</div>
+		<EmModal @ref="_sm" Title="Small Modal" Size="sm">
+			<ChildContent>This is a small modal — great for simple confirmations.</ChildContent>
+			<Footer><EmButton Variant="secondary" OnClick="() => _sm!.HideAsync()">Close</EmButton></Footer>
+		</EmModal>
+		<EmModal @ref="_lg" Title="Large Modal" Size="lg">
+			<ChildContent>This is a large modal — suitable for forms or detailed content.</ChildContent>
+			<Footer><EmButton Variant="secondary" OnClick="() => _lg!.HideAsync()">Close</EmButton></Footer>
+		</EmModal>
+		<EmModal @ref="_xl" Title="Extra Large Modal" Size="xl">
+			<ChildContent>This is an extra large modal — use for wide content like tables or dashboards.</ChildContent>
+			<Footer><EmButton Variant="secondary" OnClick="() => _xl!.HideAsync()">Close</EmButton></Footer>
+		</EmModal>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Vertically Centered"
+			 Description="Add Centered to vertically center the modal in the viewport."
+			 Code="@(@"<EmButton Variant=""primary"" OnClick=""() => _centered!.Show()"">Centered Modal</EmButton>
+
+<EmModal @ref=""_centered"" Title=""Centered Modal"" Centered>
+	This modal is vertically centered in the viewport.
+	<Footer>
+		<EmButton Variant=""secondary"" OnClick=""() => _centered!.HideAsync()"">Close</EmButton>
+	</Footer>
+</EmModal>")">
+	<Preview>
+		<EmButton Variant="primary" OnClick="() => _centered!.Show()">Open Centered Modal</EmButton>
+		<EmModal @ref="_centered" Title="Vertically Centered" Centered>
+			<ChildContent>This modal is vertically centered in the viewport.</ChildContent>
+			<Footer><EmButton Variant="secondary" OnClick="() => _centered!.HideAsync()">Close</EmButton></Footer>
+		</EmModal>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Confirm Dialog Pattern"
+			 Description="A common pattern: open a confirm dialog, then act on the result."
+			 Code="@(@"<EmButton Variant=""danger"" OnClick=""() => _confirm!.Show()"">Delete Item</EmButton>
+@if (_deleted) { <EmAlert Variant=""success"" Class=""d-inline-block ms-2 py-1 px-2 mb-0"">Deleted!</EmAlert> }
+
+<EmModal @ref=""_confirm"" Title=""Confirm Delete"" Centered>
+	Are you sure you want to delete this item? This action cannot be undone.
+	<Footer>
+		<EmButton Variant=""secondary"" OnClick=""() => _confirm!.HideAsync()"">Cancel</EmButton>
+		<EmButton Variant=""danger"" OnClick=""ConfirmDelete"">Delete</EmButton>
+	</Footer>
+</EmModal>
+
+@code {
+	private EmModal? _confirm;
+	private bool _deleted;
+	private async Task ConfirmDelete() {
+		await _confirm!.HideAsync();
+		_deleted = true;
+	}
+}")">
+	<Preview>
+		<div class="d-flex align-items-center gap-2">
+			<EmButton Variant="danger" OnClick="() => _confirm!.Show()">Delete Item</EmButton>
+			@if (_deleted)
+			{
+				<EmAlert Variant="success" Class="py-1 px-2 mb-0 d-inline-block">Item deleted!</EmAlert>
+			}
+		</div>
+		<EmModal @ref="_confirm" Title="Confirm Delete" Centered>
+			<ChildContent>Are you sure you want to delete this item? This action cannot be undone.</ChildContent>
+			<Footer>
+				<EmButton Variant="secondary" OnClick="() => _confirm!.HideAsync()">Cancel</EmButton>
+				<EmButton Variant="danger" OnClick="ConfirmDelete">Yes, Delete</EmButton>
+			</Footer>
+		</EmModal>
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>Title</code></td><td>string</td><td><code>""</code></td><td>Modal header title.</td></tr>
+			<tr><td><code>Size</code></td><td>string</td><td><code>""</code></td><td>sm, lg, xl, fullscreen, or empty.</td></tr>
+			<tr><td><code>Centered</code></td><td>bool</td><td><code>false</code></td><td>Vertically centers the modal.</td></tr>
+			<tr><td><code>Scrollable</code></td><td>bool</td><td><code>false</code></td><td>Makes the body independently scrollable.</td></tr>
+			<tr><td><code>Dismissible</code></td><td>bool</td><td><code>true</code></td><td>Shows a close button in the header.</td></tr>
+			<tr><td><code>ChildContent</code></td><td>RenderFragment?</td><td>—</td><td>Modal body content.</td></tr>
+			<tr><td><code>Footer</code></td><td>RenderFragment?</td><td>—</td><td>Modal footer content.</td></tr>
+			<tr><td><code>OnHidden</code></td><td>EventCallback</td><td>—</td><td>Raised when the modal is closed.</td></tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private EmModal? _basic;
+	private EmModal? _sm;
+	private EmModal? _lg;
+	private EmModal? _xl;
+	private EmModal? _centered;
+	private EmModal? _confirm;
+	private bool _deleted;
+
+	private async Task ConfirmDelete()
+	{
+		await _confirm!.HideAsync();
+		_deleted = true;
+		await Task.Delay(2500);
+		_deleted = false;
+	}
+}

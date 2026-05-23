@@ -1,0 +1,17 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+<span class="badge text-bg-@Variant @(Pill ? "rounded-pill" : "") @Class">@ChildContent</span>
+
+@code {
+	/// <summary>Bootstrap color variant: primary, secondary, success, danger, warning, info, light, dark.</summary>
+	[Parameter] public string Variant { get; set; } = "primary";
+
+	/// <summary>Renders as a pill badge with rounded ends.</summary>
+	[Parameter] public bool Pill { get; set; }
+
+	/// <summary>Additional CSS classes applied to the badge element.</summary>
+	[Parameter] public string? Class { get; set; }
+
+	/// <summary>Badge label content.</summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+}

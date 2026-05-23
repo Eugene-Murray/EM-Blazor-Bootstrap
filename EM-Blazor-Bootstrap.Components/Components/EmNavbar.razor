@@ -1,0 +1,48 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+<nav class="navbar navbar-expand-@Expand bg-@Variant @(DarkText ? "" : "navbar-dark") @Class">
+	<div class="container-fluid">
+		@if (Brand is not null)
+		{
+			<a class="navbar-brand" href="@BrandHref">@Brand</a>
+		}
+		<button class="navbar-toggler" type="button"
+				@onclick="ToggleNav"
+				aria-controls="@_navId"
+				aria-expanded="@_expanded"
+				aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse @(_expanded ? "show" : "")" id="@_navId">
+			@ChildContent
+		</div>
+	</div>
+</nav>
+
+@code {
+	private bool _expanded;
+	private readonly string _navId = $"navbar-{Guid.NewGuid():N}";
+
+	/// <summary>Brand slot — typically text or an image.</summary>
+	[Parameter] public RenderFragment? Brand { get; set; }
+
+	/// <summary>URL the brand links to.</summary>
+	[Parameter] public string BrandHref { get; set; } = "/";
+
+	/// <summary>Nav items and other content inside the collapsible area.</summary>
+	[Parameter] public RenderFragment? ChildContent { get; set; }
+
+	/// <summary>Bootstrap color variant used as bg-{variant}: primary, dark, light, etc.</summary>
+	[Parameter] public string Variant { get; set; } = "dark";
+
+	/// <summary>Breakpoint at which the navbar expands: sm, md, lg, xl, xxl.</summary>
+	[Parameter] public string Expand { get; set; } = "lg";
+
+	/// <summary>Uses dark text (suitable for light backgrounds). Default is light text for dark backgrounds.</summary>
+	[Parameter] public bool DarkText { get; set; }
+
+	/// <summary>Additional CSS classes applied to the nav element.</summary>
+	[Parameter] public string? Class { get; set; }
+
+	private void ToggleNav() => _expanded = !_expanded;
+}

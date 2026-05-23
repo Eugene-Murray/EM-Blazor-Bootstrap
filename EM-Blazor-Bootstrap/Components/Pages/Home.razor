@@ -1,0 +1,139 @@
+﻿@page "/"
+@layout DocsLayout
+
+<PageTitle>EM Blazor Bootstrap Components</PageTitle>
+
+<div class="py-3 mb-5">
+    <h1 class="display-5 fw-bold">EM Blazor Bootstrap Components</h1>
+    <p class="col-lg-9 fs-5 text-body-secondary">
+        A library of reusable, Bootstrap 5–styled Razor components for Blazor.
+        Works with <strong>Interactive Server</strong>, <strong>WebAssembly</strong>, and <strong>Auto</strong> render modes.
+    </p>
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="/components/alert" class="btn btn-primary btn-lg">Explore Server Components</a>
+        <a href="/wasm/alert" class="btn btn-outline-secondary btn-lg">Explore WASM Components</a>
+    </div>
+</div>
+
+<hr class="my-5" />
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="d-flex gap-3">
+            <div class="flex-shrink-0 text-primary fs-3">⚡</div>
+            <div>
+                <h5>Interactive Server</h5>
+                <p class="text-body-secondary small">Components run on the server over a SignalR connection. Instant startup, full .NET access.</p>
+                <a href="/components/alert" class="small">Browse server demos &rarr;</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="d-flex gap-3">
+            <div class="flex-shrink-0 text-primary fs-3">🌐</div>
+            <div>
+                <h5>WebAssembly</h5>
+                <p class="text-body-secondary small">Components compile to WASM and run entirely in the browser. No server round-trips after load.</p>
+                <a href="/wasm/alert" class="small">Browse WASM demos &rarr;</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="d-flex gap-3">
+            <div class="flex-shrink-0 text-primary fs-3">🔀</div>
+            <div>
+                <h5>Auto Mode</h5>
+                <p class="text-body-secondary small">Starts as server for instant load, then transparently upgrades to WASM once the bundle is cached.</p>
+                <a href="https://learn.microsoft.com/aspnet/core/blazor/components/render-modes" target="_blank" class="small">Learn more &rarr;</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5" />
+
+<h2 class="mb-4">Quick Start</h2>
+
+<h5>1. Add the render mode to a page or component</h5>
+<pre class="em-code-block rounded mb-4"><code>@@rendermode InteractiveServer       @("// or InteractiveWebAssembly / InteractiveAuto")</code></pre>
+
+<h5>2. Use any component</h5>
+<pre class="em-code-block rounded mb-4"><code>&lt;EmAlert Variant="success" Dismissible&gt;
+    Operation completed successfully!
+&lt;/EmAlert&gt;
+
+&lt;EmButton Variant="primary" OnClick="Save" Loading="@@_saving"&gt;Save&lt;/EmButton&gt;
+
+&lt;EmCard&gt;
+    &lt;Header&gt;My Card&lt;/Header&gt;
+    &lt;ChildContent&gt;Card body content here.&lt;/ChildContent&gt;
+    &lt;Footer&gt;
+        &lt;EmButton Variant="primary"&gt;Action&lt;/EmButton&gt;
+    &lt;/Footer&gt;
+&lt;/EmCard&gt;</code></pre>
+
+<h5>3. Open a modal programmatically</h5>
+<pre class="em-code-block rounded mb-4"><code>&lt;EmModal @@ref="_modal" Title="Confirm Delete" Centered&gt;
+    Are you sure you want to delete this item?
+    &lt;Footer&gt;
+        &lt;EmButton Variant="danger" OnClick="DeleteAsync"&gt;Delete&lt;/EmButton&gt;
+        &lt;EmButton Variant="secondary" OnClick="() => _modal!.HideAsync()"&gt;Cancel&lt;/EmButton&gt;
+    &lt;/Footer&gt;
+&lt;/EmModal&gt;
+
+@@code {
+    private EmModal? _modal;
+    private void OpenModal() => _modal?.Show();
+}</code></pre>
+
+<hr class="my-5" />
+
+<h2 class="mb-4">Components</h2>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+    @foreach (var comp in _components)
+    {
+        <div class="col">
+            <a href="@comp.ServerHref" class="text-decoration-none">
+                <div class="border rounded p-3 h-100 comp-card">
+                    <div class="fw-semibold mb-1">@comp.Name</div>
+                    <div class="text-body-secondary small">@comp.Description</div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+@code {
+    private readonly (string Name, string Description, string ServerHref)[] _components =
+    [
+        ("Alert",      "Contextual feedback messages with optional dismiss.",    "/components/alert"),
+        ("Badge",      "Small count or label overlays with color variants.",     "/components/badge"),
+        ("Button",     "Styled action triggers with variants, sizes & states.",  "/components/button"),
+        ("Card",       "Flexible content container with header, body & footer.", "/components/card"),
+        ("Modal",      "Dialog overlays with size and scrollable options.",      "/components/modal"),
+        ("Navbar",     "Responsive navigation header with collapsible menu.",    "/components/navbar"),
+        ("Pagination", "Page navigation with ellipsis windowing.",              "/components/pagination"),
+        ("Spinner",    "Animated loading indicators in border and grow styles.", "/components/spinner"),
+    ];
+}
+
+<style>
+    .em-code-block {
+        background-color: #1e1e2e;
+        color: #cdd6f4;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: .8rem;
+        line-height: 1.6;
+        padding: 1rem 1.25rem;
+        overflow-x: auto;
+        white-space: pre;
+    }
+    .comp-card {
+        transition: background-color .15s, border-color .15s;
+    }
+    .comp-card:hover {
+        background-color: var(--bs-primary-bg-subtle);
+        border-color: var(--bs-primary-border-subtle) !important;
+    }
+</style>
+

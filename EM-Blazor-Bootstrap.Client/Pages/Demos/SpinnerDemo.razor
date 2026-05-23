@@ -1,0 +1,73 @@
+@page "/wasm/spinner"
+@layout DocsLayout
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Spinner (WASM) – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Spinner</h1>
+	<span class="badge text-bg-primary">WebAssembly</span>
+</div>
+<p class="lead text-body-secondary mb-4">
+	<code>EmSpinner</code> running in WebAssembly. Async delays run on the browser thread pool — no server connection needed.
+</p>
+<div class="alert alert-primary d-flex gap-2 mb-5">
+	<span>🌐</span>
+	<span>This page uses <strong><code>@@rendermode InteractiveWebAssembly</code></strong>.</span>
+</div>
+
+<DemoSection Title="Border Spinners">
+	<Preview>
+		<div class="d-flex flex-wrap gap-3 align-items-center">
+			<EmSpinner Variant="primary" />
+			<EmSpinner Variant="secondary" />
+			<EmSpinner Variant="success" />
+			<EmSpinner Variant="danger" />
+			<EmSpinner Variant="warning" />
+			<EmSpinner Variant="info" />
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Grow Spinners">
+	<Preview>
+		<div class="d-flex flex-wrap gap-3 align-items-center">
+			<EmSpinner Grow Variant="primary" />
+			<EmSpinner Grow Variant="secondary" />
+			<EmSpinner Grow Variant="success" />
+			<EmSpinner Grow Variant="danger" />
+			<EmSpinner Grow Variant="warning" />
+			<EmSpinner Grow Variant="info" />
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="WASM Async Loading Simulation" Description="Task.Delay runs in the browser's thread pool via WASM — no server round-trip.">
+	<Preview>
+		<div class="d-flex gap-2 align-items-center">
+			<EmButton Variant="primary" Loading="@_loading" OnClick="SimulateLoad">
+				@(_loading ? "Running in WASM..." : "Simulate Async Work")
+			</EmButton>
+			@if (_loading)
+			{
+				<EmSpinner Variant="info" Class="spinner-border-sm" />
+				<span class="text-body-secondary small">Processing in browser...</span>
+			}
+		</div>
+	</Preview>
+</DemoSection>
+
+<div class="mt-4">
+	<a href="/components/spinner" class="btn btn-outline-success btn-sm">View Interactive Server version →</a>
+</div>
+
+@code {
+	private bool _loading;
+
+	private async Task SimulateLoad()
+	{
+		_loading = true;
+		await Task.Delay(2000);
+		_loading = false;
+	}
+}

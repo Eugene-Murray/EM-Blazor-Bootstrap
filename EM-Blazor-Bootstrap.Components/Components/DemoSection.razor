@@ -1,0 +1,35 @@
+@namespace EM_Blazor_Bootstrap.Components.Components
+
+<div class="em-demo-section mb-5">
+	@if (!string.IsNullOrEmpty(Title))
+	{
+		<h3 class="h5 mb-1">@Title</h3>
+	}
+	@if (!string.IsNullOrEmpty(Description))
+	{
+		<p class="text-body-secondary small mb-3">@Description</p>
+	}
+	<div class="em-demo-preview border rounded-top p-4 bg-body">
+		@Preview
+	</div>
+	@if (!string.IsNullOrEmpty(Code))
+	{
+		<div class="em-demo-code">
+			<pre class="em-code-block rounded-bottom mb-0"><code>@Code</code></pre>
+		</div>
+	}
+</div>
+
+@code {
+	/// <summary>Section heading shown above the preview.</summary>
+	[Parameter] public string? Title { get; set; }
+
+	/// <summary>Optional description shown below the title.</summary>
+	[Parameter] public string? Description { get; set; }
+
+	/// <summary>Live rendered example.</summary>
+	[Parameter] public RenderFragment? Preview { get; set; }
+
+	/// <summary>Code snippet shown below the preview.</summary>
+	[Parameter] public string? Code { get; set; }
+}

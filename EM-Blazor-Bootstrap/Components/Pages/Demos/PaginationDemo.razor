@@ -1,0 +1,113 @@
+@page "/components/pagination"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Pagination – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Pagination</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	Indicate a series of related content exists across multiple pages.
+	Supports ellipsis windowing, size variants, alignment, and an <code>OnPageChanged</code> callback.
+</p>
+
+<DemoSection Title="Basic Pagination"
+			 Description="Bind to CurrentPage and TotalPages. Use OnPageChanged to react to navigation."
+			 Code="@(@"<EmPagination CurrentPage=""@_page"" TotalPages=""10"" OnPageChanged=""p => _page = p"" />
+<p class=""text-body-secondary small mt-2"">Current page: @_page</p>
+
+@code { private int _page = 1; }")">
+	<Preview>
+		<EmPagination CurrentPage="@_page1" TotalPages="10" OnPageChanged="p => _page1 = p" />
+		<p class="text-body-secondary small mt-2 mb-0">Current page: @_page1</p>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Ellipsis Windowing"
+			 Description="For large page counts, pages far from the current one are collapsed into an ellipsis."
+			 Code="@(@"<EmPagination CurrentPage=""@_page"" TotalPages=""50"" OnPageChanged=""p => _page = p"" />")">
+	<Preview>
+		<EmPagination CurrentPage="@_page2" TotalPages="50" OnPageChanged="p => _page2 = p" />
+		<p class="text-body-secondary small mt-2 mb-0">Current page: @_page2 of 50</p>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Sizes"
+			 Description="Use Size=&quot;sm&quot; or Size=&quot;lg&quot; to change the pagination size."
+			 Code="@(@"<EmPagination CurrentPage=""1"" TotalPages=""5"" Size=""sm"" />
+<EmPagination CurrentPage=""1"" TotalPages=""5"" />
+<EmPagination CurrentPage=""1"" TotalPages=""5"" Size=""lg"" />")">
+	<Preview>
+		<EmPagination CurrentPage="@_page3" TotalPages="5" Size="sm" OnPageChanged="p => _page3 = p" />
+		<EmPagination CurrentPage="@_page3" TotalPages="5" OnPageChanged="p => _page3 = p" />
+		<EmPagination CurrentPage="@_page3" TotalPages="5" Size="lg" OnPageChanged="p => _page3 = p" />
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Alignment"
+			 Description="Use Align=&quot;center&quot; or Align=&quot;end&quot; to position the pagination."
+			 Code="@(@"<EmPagination CurrentPage=""1"" TotalPages=""5"" Align=""start"" />
+<EmPagination CurrentPage=""1"" TotalPages=""5"" Align=""center"" />
+<EmPagination CurrentPage=""1"" TotalPages=""5"" Align=""end"" />")">
+	<Preview>
+		<EmPagination CurrentPage="1" TotalPages="5" Align="start" />
+		<EmPagination CurrentPage="1" TotalPages="5" Align="center" />
+		<EmPagination CurrentPage="1" TotalPages="5" Align="end" />
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Paged Data Example"
+			 Description="A real-world pattern: paginate a list of items."
+			 Code="@(@"<EmPagination CurrentPage=""@_page"" TotalPages=""@TotalPages"" OnPageChanged=""p => _page = p"" Align=""center"" />
+
+@foreach (var item in PagedItems)
+{
+	<div class=""border rounded p-2 mb-2"">@item</div>
+}
+
+@code {
+	private int _page = 1;
+	private const int PageSize = 3;
+	private string[] _allItems = Enumerable.Range(1, 20).Select(i => $""Item #{i}"").ToArray();
+	private int TotalPages => (int)Math.Ceiling(_allItems.Length / (double)PageSize);
+	private IEnumerable<string> PagedItems => _allItems.Skip((_page - 1) * PageSize).Take(PageSize);
+}")">
+	<Preview>
+		<EmPagination CurrentPage="@_pagedPage" TotalPages="@TotalPages" OnPageChanged="p => _pagedPage = p" Align="center" />
+		@foreach (var item in PagedItems)
+		{
+			<div class="border rounded p-2 mb-2">@item</div>
+		}
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>CurrentPage</code></td><td>int</td><td><code>1</code></td><td>The currently active page (1-based).</td></tr>
+			<tr><td><code>TotalPages</code></td><td>int</td><td><code>1</code></td><td>Total number of pages.</td></tr>
+			<tr><td><code>OnPageChanged</code></td><td>EventCallback&lt;int&gt;</td><td>—</td><td>Raised with the new page number.</td></tr>
+			<tr><td><code>Size</code></td><td>string</td><td><code>""</code></td><td>sm, lg, or empty for default.</td></tr>
+			<tr><td><code>Align</code></td><td>string</td><td><code>"start"</code></td><td>start, center, or end.</td></tr>
+			<tr><td><code>AriaLabel</code></td><td>string</td><td><code>"Page navigation"</code></td><td>Accessible label for the nav element.</td></tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private int _page1 = 1;
+	private int _page2 = 5;
+	private int _page3 = 1;
+	private int _pagedPage = 1;
+
+	private const int PageSize = 3;
+	private readonly string[] _allItems = Enumerable.Range(1, 15).Select(i => $"Item #{i}").ToArray();
+	private int TotalPages => (int)Math.Ceiling(_allItems.Length / (double)PageSize);
+	private IEnumerable<string> PagedItems => _allItems.Skip((_pagedPage - 1) * PageSize).Take(PageSize);
+}

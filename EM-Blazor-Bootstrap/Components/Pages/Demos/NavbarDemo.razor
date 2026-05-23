@@ -1,0 +1,116 @@
+@page "/components/navbar"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Navbar – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Navbar</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	A responsive navigation header with built-in mobile toggling. Customize the brand,
+	color variant, expand breakpoint, and nav content via slots.
+</p>
+
+<DemoSection Title="Dark Navbar"
+			 Description="Default dark background with light text (bg-dark navbar-dark)."
+			 Code="@(@"<EmNavbar Variant=""dark"">
+	<Brand>MyApp</Brand>
+	<ChildContent>
+		<ul class=""navbar-nav me-auto"">
+			<li class=""nav-item""><a class=""nav-link active"" href=""/"">Home</a></li>
+			<li class=""nav-item""><a class=""nav-link"" href=""/about"">About</a></li>
+			<li class=""nav-item""><a class=""nav-link"" href=""/contact"">Contact</a></li>
+		</ul>
+	</ChildContent>
+</EmNavbar>")">
+	<Preview>
+		<EmNavbar Variant="dark">
+			<Brand>MyApp</Brand>
+			<ChildContent>
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+				</ul>
+			</ChildContent>
+		</EmNavbar>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Primary Navbar with Search"
+			 Description="Use Variant=&quot;primary&quot; and add a search form inside ChildContent."
+			 Code="@(@"<EmNavbar Variant=""primary"">
+	<Brand>Brand</Brand>
+	<ChildContent>
+		<ul class=""navbar-nav me-auto"">
+			<li class=""nav-item""><a class=""nav-link"" href=""/"">Home</a></li>
+		</ul>
+		<form class=""d-flex gap-2"">
+			<input class=""form-control"" type=""search"" placeholder=""Search"" />
+			<EmButton Variant=""outline-light"" Type=""submit"" Size=""sm"">Search</EmButton>
+		</form>
+	</ChildContent>
+</EmNavbar>")">
+	<Preview>
+		<EmNavbar Variant="primary">
+			<Brand>Brand</Brand>
+			<ChildContent>
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+				</ul>
+				<form class="d-flex gap-2">
+					<input class="form-control" type="search" placeholder="Search" />
+					<EmButton Variant="outline-light" Type="submit" Size="sm">Search</EmButton>
+				</form>
+			</ChildContent>
+		</EmNavbar>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Light Navbar"
+			 Description="Use Variant=&quot;light&quot; with DarkText=true for a light-background navbar."
+			 Code="@(@"<EmNavbar Variant=""light"" DarkText>
+	<Brand>LightNav</Brand>
+	<ChildContent>
+		<ul class=""navbar-nav me-auto"">
+			<li class=""nav-item""><a class=""nav-link"" href=""/"">Home</a></li>
+			<li class=""nav-item""><a class=""nav-link"" href=""/docs"">Docs</a></li>
+		</ul>
+		<EmButton Variant=""outline-primary"" Size=""sm"">Sign in</EmButton>
+	</ChildContent>
+</EmNavbar>")">
+	<Preview>
+		<EmNavbar Variant="light" DarkText>
+			<Brand>LightNav</Brand>
+			<ChildContent>
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Docs</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Examples</a></li>
+				</ul>
+				<EmButton Variant="outline-primary" Size="sm">Sign in</EmButton>
+			</ChildContent>
+		</EmNavbar>
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>Brand</code></td><td>RenderFragment?</td><td>—</td><td>Brand/logo slot linked to BrandHref.</td></tr>
+			<tr><td><code>BrandHref</code></td><td>string</td><td><code>"/"</code></td><td>URL the brand links to.</td></tr>
+			<tr><td><code>ChildContent</code></td><td>RenderFragment?</td><td>—</td><td>Nav items inside the collapsible area.</td></tr>
+			<tr><td><code>Variant</code></td><td>string</td><td><code>"dark"</code></td><td>Bootstrap bg-{variant} color.</td></tr>
+			<tr><td><code>Expand</code></td><td>string</td><td><code>"lg"</code></td><td>Breakpoint to expand: sm, md, lg, xl, xxl.</td></tr>
+			<tr><td><code>DarkText</code></td><td>bool</td><td><code>false</code></td><td>Use dark text (for light backgrounds).</td></tr>
+		</tbody>
+	</table>
+</div>

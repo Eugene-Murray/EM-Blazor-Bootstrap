@@ -1,0 +1,18 @@
+{
+  "name": "em-blazor-bootstrap",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "sass": "sass Styles/app.scss wwwroot/app.css --style=compressed --no-source-map",
+    "sass:dev": "sass Styles/app.scss wwwroot/app.css --style=expanded",
+    "sass:watch": "sass Styles/app.scss wwwroot/app.css --watch",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch"
+  },
+  "devDependencies": {
+    "bootstrap": "^5.3.7",
+    "eslint": "^10.4.0",
+    "sass": "^1.89.2",
+    "typescript": "^5.8.3"
+  }
+}

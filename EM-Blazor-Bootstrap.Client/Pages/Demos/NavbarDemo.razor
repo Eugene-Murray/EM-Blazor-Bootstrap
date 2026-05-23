@@ -1,0 +1,55 @@
+@page "/wasm/navbar"
+@layout DocsLayout
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Navbar (WASM) – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Navbar</h1>
+	<span class="badge text-bg-primary">WebAssembly</span>
+</div>
+<p class="lead text-body-secondary mb-4">
+	<code>EmNavbar</code> running in WebAssembly. The mobile toggle state is managed client-side in the browser.
+</p>
+<div class="alert alert-primary d-flex gap-2 mb-5">
+	<span>🌐</span>
+	<span>This page uses <strong><code>@@rendermode InteractiveWebAssembly</code></strong>. Resize the window to see the mobile toggler — it runs entirely in WASM.</span>
+</div>
+
+<DemoSection Title="Dark Navbar (WASM)">
+	<Preview>
+		<EmNavbar Variant="dark">
+			<Brand>WASM App</Brand>
+			<ChildContent>
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+				</ul>
+				<EmBadge Variant="info" Pill>WASM</EmBadge>
+			</ChildContent>
+		</EmNavbar>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Primary Navbar with Search (WASM)">
+	<Preview>
+		<EmNavbar Variant="primary">
+			<Brand>Brand</Brand>
+			<ChildContent>
+				<ul class="navbar-nav me-auto">
+					<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Docs</a></li>
+				</ul>
+				<form class="d-flex gap-2">
+					<input class="form-control" type="search" placeholder="Search" />
+					<EmButton Variant="outline-light" Type="submit" Size="sm">Search</EmButton>
+				</form>
+			</ChildContent>
+		</EmNavbar>
+	</Preview>
+</DemoSection>
+
+<div class="mt-4">
+	<a href="/components/navbar" class="btn btn-outline-success btn-sm">View Interactive Server version →</a>
+</div>

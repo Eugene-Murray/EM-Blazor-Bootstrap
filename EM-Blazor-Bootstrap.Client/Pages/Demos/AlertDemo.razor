@@ -1,0 +1,56 @@
+@page "/wasm/alert"
+@layout DocsLayout
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Alert (WASM) – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Alert</h1>
+	<span class="badge text-bg-primary">WebAssembly</span>
+</div>
+<p class="lead text-body-secondary mb-4">
+	Same <code>EmAlert</code> component — running entirely in the browser via WebAssembly.
+	No server round-trips after the initial WASM bundle is loaded.
+</p>
+<div class="alert alert-primary d-flex gap-2 mb-5">
+	<span>🌐</span>
+	<span>This page uses <strong><code>@@rendermode InteractiveWebAssembly</code></strong>. Open DevTools → Network to confirm no SignalR connection is made after load.</span>
+</div>
+
+<DemoSection Title="Color Variants" Code="@(@"<EmAlert Variant=""primary"">Primary alert.</EmAlert>
+<EmAlert Variant=""success"">Success alert.</EmAlert>
+<EmAlert Variant=""danger"">Danger alert.</EmAlert>
+<EmAlert Variant=""warning"">Warning alert.</EmAlert>")">
+	<Preview>
+		<EmAlert Variant="primary">A primary alert — running in WebAssembly.</EmAlert>
+		<EmAlert Variant="success">A success alert — all event handling happens in the browser.</EmAlert>
+		<EmAlert Variant="danger">A danger alert — no server connection needed.</EmAlert>
+		<EmAlert Variant="warning" Class="mb-0">A warning alert — pure client-side Blazor.</EmAlert>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Dismissible" Code="@(@"<EmAlert Variant=""success"" Dismissible>Dismiss me — the state change runs in WASM.</EmAlert>")">
+	<Preview>
+		<EmAlert Variant="success" Dismissible>
+			<strong>WASM dismissal!</strong> Click × — the state update happens entirely in the browser, no server call.
+		</EmAlert>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Reset" Code="@(@"<EmAlert @ref=""_alert"" Variant=""warning"" Dismissible>Dismiss me, then restore.</EmAlert>
+<EmButton Variant=""outline-warning"" OnClick=""() => _alert!.Reset()"">Restore Alert</EmButton>")">
+	<Preview>
+		<EmAlert @ref="_alert" Variant="warning" Dismissible>
+			Dismiss me, then click Restore — all handled client-side in WASM.
+		</EmAlert>
+		<EmButton Variant="outline-warning" OnClick="() => _alert!.Reset()">Restore Alert</EmButton>
+	</Preview>
+</DemoSection>
+
+<div class="mt-4">
+	<a href="/components/alert" class="btn btn-outline-success btn-sm">View Interactive Server version →</a>
+</div>
+
+@code {
+	private EmAlert? _alert;
+}

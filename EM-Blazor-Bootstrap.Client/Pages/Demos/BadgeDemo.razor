@@ -1,0 +1,70 @@
+@page "/wasm/badge"
+@layout DocsLayout
+@rendermode InteractiveWebAssembly
+
+<PageTitle>Badge (WASM) – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Badge</h1>
+	<span class="badge text-bg-primary">WebAssembly</span>
+</div>
+<p class="lead text-body-secondary mb-4">
+	Same <code>EmBadge</code> component running entirely in the browser via WebAssembly.
+</p>
+<div class="alert alert-primary d-flex gap-2 mb-5">
+	<span>🌐</span>
+	<span>This page uses <strong><code>@@rendermode InteractiveWebAssembly</code></strong>. State changes update the DOM in the browser without a server call.</span>
+</div>
+
+<DemoSection Title="Color Variants" Code="@(@"<EmBadge Variant=""primary"">Primary</EmBadge>
+<EmBadge Variant=""success"">Success</EmBadge>
+<EmBadge Variant=""danger"">Danger</EmBadge>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmBadge Variant="primary">Primary</EmBadge>
+			<EmBadge Variant="secondary">Secondary</EmBadge>
+			<EmBadge Variant="success">Success</EmBadge>
+			<EmBadge Variant="danger">Danger</EmBadge>
+			<EmBadge Variant="warning">Warning</EmBadge>
+			<EmBadge Variant="info">Info</EmBadge>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Pill Badges" Code="@(@"<EmBadge Variant=""primary"" Pill>Primary</EmBadge>
+<EmBadge Variant=""success"" Pill>Success</EmBadge>")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-2">
+			<EmBadge Variant="primary" Pill>Primary</EmBadge>
+			<EmBadge Variant="secondary" Pill>Secondary</EmBadge>
+			<EmBadge Variant="success" Pill>Success</EmBadge>
+			<EmBadge Variant="danger" Pill>Danger</EmBadge>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Live Notification Counter (WASM)" Code="@(@"<EmButton Variant=""primary"">
+	Messages <EmBadge Variant=""light"" Pill>@_count</EmBadge>
+</EmButton>
+<EmButton Variant=""outline-secondary"" OnClick=""() => _count++"">Add</EmButton>
+
+@code { private int _count = 4; }")">
+	<Preview>
+		<div class="d-flex gap-2 align-items-center">
+			<EmButton Variant="primary">
+				Messages <EmBadge Variant="light" Pill>@_count</EmBadge>
+			</EmButton>
+			<EmButton Variant="outline-secondary" OnClick="() => _count++">Add</EmButton>
+			<EmButton Variant="outline-danger" OnClick="() => _count = 0">Clear</EmButton>
+		</div>
+		<p class="text-body-secondary small mt-2 mb-0">Count updates happen in WASM — no server involved.</p>
+	</Preview>
+</DemoSection>
+
+<div class="mt-4">
+	<a href="/components/badge" class="btn btn-outline-success btn-sm">View Interactive Server version →</a>
+</div>
+
+@code {
+	private int _count = 4;
+}

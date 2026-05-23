@@ -1,0 +1,100 @@
+@page "/components/alert"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Alert – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Alert</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	Provide contextual feedback messages for typical user actions with a handful of available and flexible alert messages.
+	Supports dismissal, custom content, and all Bootstrap color variants.
+</p>
+
+<DemoSection Title="Color Variants"
+			 Description="Use the Variant parameter with any Bootstrap contextual color."
+			 Code="@(@"<EmAlert Variant=""primary"">A primary alert with important information.</EmAlert>
+<EmAlert Variant=""success"">A success alert — great for confirmations.</EmAlert>
+<EmAlert Variant=""danger"">A danger alert — use for errors or warnings.</EmAlert>
+<EmAlert Variant=""warning"">A warning alert — something needs attention.</EmAlert>
+<EmAlert Variant=""info"">An info alert — neutral informational content.</EmAlert>
+<EmAlert Variant=""secondary"">A secondary alert — less prominent message.</EmAlert>")">
+	<Preview>
+		<EmAlert Variant="primary">A primary alert with important information.</EmAlert>
+		<EmAlert Variant="success">A success alert — great for confirmations.</EmAlert>
+		<EmAlert Variant="danger">A danger alert — use for errors or warnings.</EmAlert>
+		<EmAlert Variant="warning">A warning alert — something needs attention.</EmAlert>
+		<EmAlert Variant="info">An info alert — neutral informational content.</EmAlert>
+		<EmAlert Variant="secondary" Class="mb-0">A secondary alert — less prominent message.</EmAlert>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Dismissible"
+			 Description="Add Dismissible to show a close button. Wire OnDismissed to react to the event."
+			 Code="@(@"<EmAlert Variant=""success"" Dismissible OnDismissed=""() => Console.WriteLine(""""Dismissed!"""")"">
+	<strong>Well done!</strong> You successfully read this dismissible alert.
+</EmAlert>")">
+	<Preview>
+		<EmAlert Variant="success" Dismissible>
+			<strong>Well done!</strong> You successfully read this dismissible alert. Click × to dismiss.
+		</EmAlert>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="With Rich Content"
+			 Description="Alerts can contain any HTML: headings, paragraphs, links, and more."
+			 Code="@(@"<EmAlert Variant=""info"">
+	<h5 class=""alert-heading"">Heads up!</h5>
+	<p>You can use the <code>ChildContent</code> slot to include any markup.</p>
+	<hr />
+	<p class=""mb-0"">Whenever you need to, use margin utilities to keep things neat.</p>
+</EmAlert>")">
+	<Preview>
+		<EmAlert Variant="info" Class="mb-0">
+			<h5 class="alert-heading">Heads up!</h5>
+			<p>You can use the <code>ChildContent</code> slot to include any markup inside the alert.</p>
+			<hr />
+			<p class="mb-0">Whenever you need to, use margin utilities to keep things neat.</p>
+		</EmAlert>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Reset a Dismissed Alert"
+			 Description="Call Reset() on an EmAlert reference to make it visible again."
+			 Code="@(@"<EmAlert @ref=""_alert"" Variant=""warning"" Dismissible>
+	Dismiss me, then click the button to restore this alert.
+</EmAlert>
+<EmButton Variant=""outline-warning"" OnClick=""() => _alert!.Reset()"">Restore Alert</EmButton>
+
+@code {
+	private EmAlert? _alert;
+}")">
+	<Preview>
+		<EmAlert @ref="_resetAlert" Variant="warning" Dismissible>
+			Dismiss me, then click the button below to restore this alert.
+		</EmAlert>
+		<EmButton Variant="outline-warning" OnClick="() => _resetAlert!.Reset()">Restore Alert</EmButton>
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>Variant</code></td><td>string</td><td><code>"info"</code></td><td>Bootstrap color variant.</td></tr>
+			<tr><td><code>Dismissible</code></td><td>bool</td><td><code>false</code></td><td>Shows a close button.</td></tr>
+			<tr><td><code>Class</code></td><td>string?</td><td>—</td><td>Additional CSS classes.</td></tr>
+			<tr><td><code>ChildContent</code></td><td>RenderFragment?</td><td>—</td><td>Alert body content.</td></tr>
+			<tr><td><code>OnDismissed</code></td><td>EventCallback</td><td>—</td><td>Raised when the alert is dismissed.</td></tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private EmAlert? _resetAlert;
+}

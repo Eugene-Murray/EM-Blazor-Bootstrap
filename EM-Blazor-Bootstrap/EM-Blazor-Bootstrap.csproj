@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>EM_Blazor_Bootstrap</RootNamespace>
+    <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EM-Blazor-Bootstrap.Client\EM-Blazor-Bootstrap.Client.csproj" />
+    <ProjectReference Include="..\EM-Blazor-Bootstrap.Components\EM-Blazor-Bootstrap.Components.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.8" />
+  </ItemGroup>
+
+  <!-- npm install: only runs when package.json changes -->
+  <Target Name="NpmInstall"
+          Inputs="package.json"
+          Outputs="node_modules/.package-lock.json">
+    <Message Importance="high" Text="Running npm install..." />
+    <Exec Command="npm install" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <!-- Compile SCSS ? wwwroot/app.css before every build (always run; no Inputs/Outputs so incremental skipping cannot hide a stale Bootstrap bundle) -->
+  <Target Name="CompileScss"
+          BeforeTargets="Build"
+          DependsOnTargets="NpmInstall">
+    <Message Importance="high" Text="Compiling SCSS..." />
+    <Exec Command="npm run sass" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <!-- Compile TypeScript ? wwwroot/js/ before every build -->
+  <Target Name="CompileTypeScript"
+          BeforeTargets="Build"
+          DependsOnTargets="NpmInstall"
+          Inputs="@(TypeScriptCompile)"
+          Outputs="wwwroot/js/app.js">
+    <Message Importance="high" Text="Compiling TypeScript..." />
+    <Exec Command="npm run tsc" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
+
+  <!-- Include SCSS source files in the project so they appear in Solution Explorer -->
+  <ItemGroup>
+    <None Include="Styles\**\*.scss" />
+    <None Include="package.json" />
+    <None Include="tsconfig.json" />
+    <TypeScriptCompile Include="Scripts\**\*.ts" />
+  </ItemGroup>
+
+</Project>

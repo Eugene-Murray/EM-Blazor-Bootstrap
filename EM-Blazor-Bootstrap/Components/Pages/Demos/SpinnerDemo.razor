@@ -1,0 +1,140 @@
+@page "/components/spinner"
+@layout DocsLayout
+@rendermode InteractiveServer
+
+<PageTitle>Spinner – EM Bootstrap</PageTitle>
+
+<div class="d-flex align-items-start justify-content-between mb-1">
+	<h1 class="h2 mb-0">Spinner</h1>
+	<span class="badge text-bg-success">Interactive Server</span>
+</div>
+<p class="lead text-body-secondary mb-5">
+	Animated loading indicators that communicate the state of a component or page.
+	Choose from border (spin) or grow animations across all Bootstrap color variants.
+</p>
+
+<DemoSection Title="Border Spinners"
+			 Description="The default spinner style — a rotating border ring."
+			 Code="@(@"<EmSpinner Variant=""primary"" />
+<EmSpinner Variant=""secondary"" />
+<EmSpinner Variant=""success"" />
+<EmSpinner Variant=""danger"" />
+<EmSpinner Variant=""warning"" />
+<EmSpinner Variant=""info"" />")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-3 align-items-center">
+			<EmSpinner Variant="primary" />
+			<EmSpinner Variant="secondary" />
+			<EmSpinner Variant="success" />
+			<EmSpinner Variant="danger" />
+			<EmSpinner Variant="warning" />
+			<EmSpinner Variant="info" />
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Grow Spinners"
+			 Description="Set Grow=true for a pulsing grow animation."
+			 Code="@(@"<EmSpinner Grow Variant=""primary"" />
+<EmSpinner Grow Variant=""secondary"" />
+<EmSpinner Grow Variant=""success"" />
+<EmSpinner Grow Variant=""danger"" />
+<EmSpinner Grow Variant=""warning"" />
+<EmSpinner Grow Variant=""info"" />")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-3 align-items-center">
+			<EmSpinner Grow Variant="primary" />
+			<EmSpinner Grow Variant="secondary" />
+			<EmSpinner Grow Variant="success" />
+			<EmSpinner Grow Variant="danger" />
+			<EmSpinner Grow Variant="warning" />
+			<EmSpinner Grow Variant="info" />
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Sizes via Class"
+			 Description="Use Bootstrap sizing utilities in the Class parameter."
+			 Code="@(@"<EmSpinner Variant=""primary"" Class=""spinner-border-sm"" />
+<EmSpinner Variant=""primary"" />
+
+<EmSpinner Grow Variant=""success"" Class=""spinner-grow-sm"" />
+<EmSpinner Grow Variant=""success"" />")">
+	<Preview>
+		<div class="d-flex flex-wrap gap-3 align-items-center">
+			<EmSpinner Variant="primary" Class="spinner-border-sm" Label="Small loading..." />
+			<EmSpinner Variant="primary" />
+			<EmSpinner Grow Variant="success" Class="spinner-grow-sm" Label="Small loading..." />
+			<EmSpinner Grow Variant="success" />
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Spinner Inside a Button"
+			 Description="EmButton has a built-in Loading parameter that shows a spinner automatically."
+			 Code="@(@"<EmButton Variant=""primary"" Loading>Loading...</EmButton>
+<EmButton Variant=""secondary"" Loading>Loading...</EmButton>")">
+	<Preview>
+		<div class="d-flex gap-2">
+			<EmButton Variant="primary" Loading>Loading...</EmButton>
+			<EmButton Variant="secondary" Loading>Loading...</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<DemoSection Title="Full-page Loading Overlay"
+			 Description="Combine a spinner with a backdrop for a full-screen loading state."
+			 Code="@(@"@if (_loading)
+{
+	<div class=""position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-white bg-opacity-75"" style=""z-index:9999"">
+		<EmSpinner Variant=""primary"" />
+	</div>
+}
+<EmButton Variant=""primary"" OnClick=""Simulate"">Simulate Loading</EmButton>
+
+@code {
+	private bool _loading;
+	private async Task Simulate() {
+		_loading = true;
+		await Task.Delay(2000);
+		_loading = false;
+	}
+}")">
+	<Preview>
+		@if (_loading)
+		{
+			<div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-white bg-opacity-75" style="z-index:9999">
+				<EmSpinner Variant="primary" />
+			</div>
+		}
+		<div class="position-relative" style="min-height:60px">
+			<EmButton Variant="primary" OnClick="SimulateLoading">Simulate Loading</EmButton>
+		</div>
+	</Preview>
+</DemoSection>
+
+<h2 class="h4 mb-3 mt-5">Parameters</h2>
+<div class="table-responsive">
+	<table class="table table-bordered small">
+		<thead class="table-light">
+			<tr><th>Parameter</th><th>Type</th><th>Default</th><th>Description</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><code>Variant</code></td><td>string</td><td><code>"primary"</code></td><td>Bootstrap color variant (text-{variant}).</td></tr>
+			<tr><td><code>Grow</code></td><td>bool</td><td><code>false</code></td><td>Uses the grow animation instead of border.</td></tr>
+			<tr><td><code>Label</code></td><td>string</td><td><code>"Loading..."</code></td><td>Screen-reader accessible label.</td></tr>
+			<tr><td><code>Class</code></td><td>string?</td><td>—</td><td>Additional CSS classes (e.g. spinner-border-sm).</td></tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+	private bool _loading;
+
+	private async Task SimulateLoading()
+	{
+		_loading = true;
+		await Task.Delay(2000);
+		_loading = false;
+	}
+}
